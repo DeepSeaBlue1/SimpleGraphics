@@ -255,7 +255,7 @@ def showScore():
     wealsneeded = int(m.weals * 85 / 100)
     if m.wealprint >= wealsneeded:
         makeNewMazeAndStuff()
-        #hello git
+        #hello git you ass
     wealtxt = "Tiles: " + str(m.wealprint) + "/" + str(wealsneeded)
     text = basicFont.render(wealtxt, True, BLACK, WHITE)
     textRect.centerx = screen.get_rect().centerx + 300
