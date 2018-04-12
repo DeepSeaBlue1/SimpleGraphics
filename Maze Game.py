@@ -19,7 +19,6 @@ passable_blocks = pygame.sprite.Group()
 impassable_blocks = pygame.sprite.Group()
 all_sprites_list = pygame.sprite.Group()
 wealsneeded = 0
-#hatredandmalcontent
 
 def extractFromFile(line,f,toInt = 1):
     file = open(f, "r")
@@ -53,7 +52,6 @@ class Player(pygame.sprite.Sprite):
         self.blockHeight = screen_height / rows
         self.blockHeight = 20
         self.blockWidth = 20
-        # self.image = pygame.Surface([self.blockWidth, self.blockHeight])
         self.image = pygame.Surface([self.blockWidth, self.blockHeight])
         self.image.fill(color)
         self.rect = self.image.get_rect()
@@ -176,6 +174,24 @@ def createRandomMapConfig():
         numWoes = numWeals * 1.2
     return rows, cols, openSpaces, numWeals, numWoes
 
+def configtext():
+    timer =  int(pygame.time.get_ticks() / 1000)
+    seconds = timer % 60
+    minutes = int(timer / 60)
+    if seconds < 10:
+        sdisplay = ":0" + str(seconds)
+    else:
+        sdisplay = ":" + str(seconds)
+    timerdisplay = str(minutes) + sdisplay
+    basicFont = pygame.font.SysFont(None, 48)
+
+    text = basicFont.render(timerdisplay, True, BLACK, WHITE)
+    textRect = text.get_rect()
+    textRect.centerx = screen.get_rect().centerx + 300
+    textRect.centery = screen.get_rect().centery + 50
+    screen.blit(text, textRect)
+    pygame.display.update()
+
 
 def createWalls(cols, rows, openSpaces, tiles):
     if openSpaces < rows:
@@ -255,14 +271,13 @@ def showScore():
     wealsneeded = int(m.weals * 85 / 100)
     if m.wealprint >= wealsneeded:
         makeNewMazeAndStuff()
-        #hello git you ass
     wealtxt = "Tiles: " + str(m.wealprint) + "/" + str(wealsneeded)
     text = basicFont.render(wealtxt, True, BLACK, WHITE)
     textRect.centerx = screen.get_rect().centerx + 300
     textRect.centery = screen.get_rect().centery - 120
     screen.blit(text, textRect)
     movesmax = int(wealsneeded * 6)
-    if movesmax < 250:
+    if  movesmax < 250:
         movesmax = int(wealsneeded * 12)
         if movesmax > 250:
             movesmax = 250
@@ -280,6 +295,11 @@ def showScore():
     textRect.centerx = screen.get_rect().centerx + 300
     textRect.centery = screen.get_rect().centery - 70
     screen.blit(text, textRect)
+    text = basicFont.render("Time Played", True, BLACK, WHITE)
+    textRect.centerx = screen.get_rect().centerx + 300
+    textRect.centery = screen.get_rect().centery
+    screen.blit(text, textRect)
+    configtext()
     if player.moves >= movesmax:
         gameover()
     else:
@@ -328,7 +348,14 @@ def makeNewMazeAndStuff():
     impassable_blocks.empty()
     m.wealprint = 0
     global player
+    global score
+    try:
+        if score == 0:
+            pass
+    except:
+        score = 0
     maze = create_maze()
+    score += (m.room * 1000)
     m.room += 1
     player = Player(maze, BLUE, m.blockWidth, m.blockHeight)
     player.maze[1][1] = 'P'
@@ -417,6 +444,7 @@ while not done:
     try:
         all_sprites_list.draw(screen)
         showScore()
+
         pygame.display.flip()
     except:
         pass
