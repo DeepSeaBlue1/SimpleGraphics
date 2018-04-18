@@ -320,7 +320,6 @@ def createSpritesFromMazeList(player):
         currentRow = -1
         for row in col:
             currentRow += 1
-            # This represents a block
             if row == 'X':
                 block = Block(BLACK, blockWidth, blockHeight)
                 block.rect.x = currentCol * blockWidth
@@ -355,7 +354,8 @@ def makeNewMazeAndStuff():
     except:
         score = 0
     maze = create_maze()
-    score += (m.room * 1000)
+    var = (m.room * 1000)
+    score += var
     m.room += 1
     player = Player(maze, BLUE, m.blockWidth, m.blockHeight)
     player.maze[1][1] = 'P'
