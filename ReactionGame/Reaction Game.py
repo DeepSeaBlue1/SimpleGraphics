@@ -60,6 +60,8 @@ def checkletter(input):
     global letter
     if input == letter:
         getrdmletter()
+    else:
+        gameover()
 
 def configtext():
     global timeleft
